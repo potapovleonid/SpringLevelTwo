@@ -1,0 +1,13 @@
+package geekbrains.home.des.springleveltwo.dto;
+
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+public class UserDTO {
+    private String username;
+    private String password;
+    private String matchPassword;
+    private String email;
+}

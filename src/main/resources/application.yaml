@@ -1,0 +1,9 @@
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
+  datasource:
+    url: jdbc:mysql://localhost:3306/online_shop?serverTimezone=UTC
+    username: root
+    password: 355286888aaAA!!@@##$$%%
