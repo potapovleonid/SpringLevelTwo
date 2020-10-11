@@ -43,11 +43,11 @@ public class UserController {
                 .username(user.getName())
                 .email(user.getEmail())
                 .build();
-        model.addAttribute("user", dto);
+        model.addAttribute("userdto", dto);
         return "profile";
     }
 
-    @PostMapping("profile")
+    @PostMapping("/profile")
     public String updateProfile(Model model, Principal principal, UserDTO dto){
         if (principal == null ||
         !Objects.equals(principal.getName(), dto.getUsername())) {

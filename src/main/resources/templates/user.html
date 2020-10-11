@@ -7,7 +7,7 @@
 <body>
 <div th:insert="~{integrated/header_menu :: #nav-menu}"></div>
 
-<form th:action="@{/users/{id}(id=${user.id}})}" th:object="${user}" method="post">
+<form th:action="@{/users/{id}(id=${user.id})}" th:object="${user}" method="post">
     <h2>Specify roles: USER, MANAGER, ADMIN, SUPER_ADMIN</h2>
     <table border="1">
 
