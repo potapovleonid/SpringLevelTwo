@@ -7,8 +7,7 @@
 <body>
 <!--Приделать css-->
 
-    <h2>Enter login and password</h2>
-
+    <p th:if="${loginError}" class="error">Wrong user or password</p>
     <form th:action="@{/auth}" method="post">
         <table border="1">
             <tr>

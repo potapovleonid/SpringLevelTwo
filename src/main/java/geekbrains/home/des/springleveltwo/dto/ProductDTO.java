@@ -9,9 +9,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class UserDTO {
-    private String username;
-    private String password;
-    private String matchPassword;
-    private String email;
+public class ProductDTO {
+    private Long id;
+    private String title;
+    private Double price;
 }
