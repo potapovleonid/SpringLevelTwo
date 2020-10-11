@@ -108,12 +108,12 @@ create table products_tbl
 
 -- ALTER
 
-alter table bucket_products add constraint FKpr1k7tk7i0orlefrsvc6oypwy foreign key (product_id) references products_tbl (product_id);
-alter table bucket_products add constraint FKejswpho61ms1v5eselgw5p2nj foreign key (bucket_id) references buckets_tbl (bucket_id);
-alter table buckets_tbl add constraint FK5fmxd234trk46gchv7xju7q8v foreign key (user_id) references users_tbl (user_id);
-alter table order_details_tbl add constraint FKfwnnigadhgbh3bh385822gwpu foreign key (order_id) references orders_tbl (order_id);
-alter table order_details_tbl add constraint FKtjcy582393gb2wdq0w7lurrbe foreign key (product_id) references products_tbl (product_id);
-alter table orders_tbl add constraint FKh6fqhpsyoltqgyylvlx3jqt20 foreign key (user_user_id) references users_tbl (user_id);
-alter table products_categories add constraint FKa7w660fwjy06u3ph2ndwvh9u0 foreign key (category_id) references categories_tbl (category_id);
-alter table products_categories add constraint FKeg6p7g3chbonvfq9w3rp5eh9c foreign key (product_id) references products_tbl (product_id);
-alter table users_tbl add constraint FK53mjhkkckldgbb75045av15xt foreign key (bucket_bucket_id) references buckets_tbl (bucket_id);
+alter table bucket_products add constraint bucket_products_fk_product foreign key (product_id) references products_tbl (product_id);
+alter table bucket_products add constraint bucket_products_fk_bucket foreign key (bucket_id) references buckets_tbl (bucket_id);
+alter table buckets_tbl add constraint buckets_tbl_fk_user foreign key (user_id) references users_tbl (user_id);
+alter table order_details_tbl add constraint order_details_tbl_fk_order foreign key (order_id) references orders_tbl (order_id);
+alter table order_details_tbl add constraint order_details_tbl_fk_product foreign key (product_id) references products_tbl (product_id);
+alter table orders_tbl add constraint orders_tbl_fk_user foreign key (user_user_id) references users_tbl (user_id);
+alter table products_categories add constraint products_categories_fk_category foreign key (category_id) references categories_tbl (category_id);
+alter table products_categories add constraint products_categories_fk_product foreign key (product_id) references products_tbl (product_id);
+alter table users_tbl add constraint users_tbl_fk_bucket foreign key (bucket_bucket_id) references buckets_tbl (bucket_id);
