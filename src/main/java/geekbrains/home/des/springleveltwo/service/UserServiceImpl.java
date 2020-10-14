@@ -47,7 +47,7 @@ public class UserServiceImpl implements UserService{
         }
         User user = User.builder()
                 .name(userDTO.getUsername())
-                .password(userDTO.getPassword())
+                .password(passwordEncoder.encode(userDTO.getPassword()))
                 .email(userDTO.getEmail())
                 .role(UserRole.USER)
                 .build();
@@ -57,6 +57,8 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public void save(User user) {
+        //Кодируем в bcrypt пароль
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         userDAO.save(user);
     }
 
