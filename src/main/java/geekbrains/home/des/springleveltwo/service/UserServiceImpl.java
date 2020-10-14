@@ -12,6 +12,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -24,7 +25,15 @@ public class UserServiceImpl implements UserService{
     public UserServiceImpl(UserDAO userDAO, PasswordEncoder passwordEncoder) {
         this.userDAO = userDAO;
         this.passwordEncoder = passwordEncoder;
+//        initializeDB();
     }
+
+//    private void initializeDB() {
+//        userDAO.saveAll(Arrays.asList(
+//           new User(null, "Leonid", passwordEncoder.encode("leonid"), "leonid@gmail.com", false, UserRole.SUPER_ADMIN, null),
+//           new User(null, "Test", passwordEncoder.encode("test"), "test@gmail.com", false, UserRole.USER, null)
+//        ));
+//    }
 
     @Override
     public List<User> getAll() {
@@ -44,6 +53,37 @@ public class UserServiceImpl implements UserService{
                 .build();
         userDAO.save(user);
         return true;
+    }
+
+    @Override
+    public void save(User user) {
+        userDAO.save(user);
+    }
+
+    @Override
+    public void update(UserDTO userDTO) {
+        User updateUser = userDAO.findFirstByName(userDTO.getUsername());
+        if (updateUser == null){
+            throw new RuntimeException("User not found by name: " + userDTO.getUsername());
+        }
+
+        boolean changed = false;
+        if (userDTO.getPassword() != null && !userDTO.getPassword().isEmpty()){
+            updateUser.setPassword(passwordEncoder.encode(userDTO.getPassword()));
+            changed = true;
+        }
+        if (!Objects.equals(userDTO.getEmail(), updateUser.getEmail())){
+            updateUser.setEmail(userDTO.getEmail());
+            changed = true;
+        }
+        if (changed){
+            userDAO.save(updateUser);
+        }
+    }
+
+    @Override
+    public User findByName(String name) {
+        return userDAO.findFirstByName(name);
     }
 
     @Override
