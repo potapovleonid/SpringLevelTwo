@@ -10,6 +10,7 @@ import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -25,7 +26,18 @@ public class ProductServiceImpl implements ProductService {
         this.productDAO = productDAO;
         this.userService = userService;
         this.bucketService = bucketService;
+//        initializeDB();
     }
+
+//    private void initializeDB() {
+//        productDAO.saveAll(Arrays.asList(
+//                new Product(null, "Apple", 25.15),
+//                new Product(null, "Peach", 35.70),
+//                new Product(null, "Carrot", 5.25),
+//                new Product(null, "Butter", 80.0),
+//                new Product(null, "Jam", 100.20)
+//        ));
+//    }
 
     @Override
     public List<ProductDTO> getAll() {

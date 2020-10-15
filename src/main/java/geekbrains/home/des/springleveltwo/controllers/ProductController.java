@@ -2,6 +2,7 @@ package geekbrains.home.des.springleveltwo.controllers;
 
 import geekbrains.home.des.springleveltwo.dto.ProductDTO;
 import geekbrains.home.des.springleveltwo.service.ProductService;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,6 +22,7 @@ public class ProductController {
         this.productService = productService;
     }
 
+    @PreAuthorize("isAuthenticated()")
     @GetMapping
     public String getAll(Model model){
         List<ProductDTO> products = productService.getAll();
@@ -28,6 +30,7 @@ public class ProductController {
         return "products";
     }
 
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/{id}/bucket")
     public String addProductInBucket(@PathVariable Long id, Principal principal){
         if (principal == null){
