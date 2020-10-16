@@ -3,6 +3,7 @@ package geekbrains.home.des.springleveltwo.controllers;
 import geekbrains.home.des.springleveltwo.domain.User;
 import geekbrains.home.des.springleveltwo.dto.UserDTO;
 import geekbrains.home.des.springleveltwo.service.UserService;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -26,12 +27,14 @@ public class UserController {
         return "users";
     }
 
+    @PreAuthorize("isAuthenticated() and hasAnyAuthority('ADMIN', 'SUPER_ADMIN')")
     @GetMapping("/new")
     public String newUser(Model model) {
         model.addAttribute("user", new UserDTO());
         return "user_new";
     }
 
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/profile")
     public String getUser(Model model, Principal principal){
         if (principal == null){
@@ -47,6 +50,7 @@ public class UserController {
         return "profile";
     }
 
+    @PreAuthorize("isAuthenticated()")
     @PostMapping("/profile")
     public String updateProfile(Model model, Principal principal, UserDTO dto){
         if (principal == null ||
@@ -63,8 +67,9 @@ public class UserController {
         return "redirect:/users/profile";
     }
 
+    @PreAuthorize("isAuthenticated() and hasAnyAuthority('ADMIN', 'SUPER_ADMIN')")
     @PostMapping("/new")
-    public String newUserAdd(Model model, @RequestBody UserDTO userDTO) {
+    public String newUserAdd(Model model, UserDTO userDTO) {
         if (userService.save(userDTO)){
             return "redirect:/users";
         } else {
@@ -72,12 +77,14 @@ public class UserController {
         }
     }
 
+    @PreAuthorize("isAuthenticated() and hasAuthority('SUPER_ADMIN')")
     @GetMapping("/{id}")
     public String getUser(Model model, @PathVariable Long id) {
         model.addAttribute("user", userService.findById(id));
         return "user";
     }
 
+    @PreAuthorize("isAuthenticated() and hasAuthority('SUPER_ADMIN')")
     @PostMapping("/{id}")
     public String updateUser(User userForm, @PathVariable Long id) {
         if (userService.update(userForm)) {

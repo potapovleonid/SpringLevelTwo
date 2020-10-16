@@ -17,6 +17,12 @@ import java.util.List;
 public class Product {
     private static final String SEQUANCE_NAME = "product_seq";
 
+    public Product(Long id, String title, Double price) {
+        this.id = id;
+        this.title = title;
+        this.price = price;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = SEQUANCE_NAME)
     @SequenceGenerator(name = SEQUANCE_NAME, sequenceName = SEQUANCE_NAME, allocationSize = 1)

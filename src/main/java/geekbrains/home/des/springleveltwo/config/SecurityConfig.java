@@ -17,7 +17,9 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(securedEnabled = true)
+@EnableGlobalMethodSecurity(securedEnabled = true,
+                            jsr250Enabled = true,
+                            prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private UserService userService;
 
@@ -47,10 +49,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/users", "/users/new").hasAnyAuthority(
+                .antMatchers("/users").hasAnyAuthority(
                         UserRole.ADMIN.name(), UserRole.SUPER_ADMIN.name())
-                .antMatchers("/users/*").hasAuthority(UserRole.SUPER_ADMIN.name())
-                .antMatchers("/users/profile").permitAll()
+//                .antMatchers("/users", "/users/new").hasAnyAuthority(
+//                        UserRole.ADMIN.name(), UserRole.SUPER_ADMIN.name())
+//                .antMatchers("/users/*").hasAuthority(UserRole.SUPER_ADMIN.name())
+//                .antMatchers("/users/profile").permitAll()
                 .anyRequest().permitAll()
                 .and()
                 .formLogin()
