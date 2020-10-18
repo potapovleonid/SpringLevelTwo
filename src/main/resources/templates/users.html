@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -15,7 +15,7 @@
             <td>Email</td>
             <td>Status</td>
             <td>Role</td>
-            <td></td>
+            <td sec:authorize="hasAnyAuthority('SUPER_ADMIN')">Super_Admin actions</td>
         </tr>
         <tr th:each="user : ${users}">
             <td th:text="${user.id}">ID</td>
@@ -23,8 +23,13 @@
             <td th:text="${user.email}">Email</td>
             <td th:text="${user.archive}">Status</td>
             <td th:text="${user.role}">Role</td>
-            <td><a th:href="@{/users/{id}(id=${user.id})}">Edit</a></td>
+            <td sec:authorize="hasAnyAuthority('SUPER_ADMIN')">
+                <a th:href="@{/users/{id}(id=${user.id})}">Edit</a><br>
+                <a th:href="@{/users/{id}/delete(id=$(user.id))}">Delete</a>
+            </td>
         </tr>
     </table>
+
+    <a sec:authorize="hasAnyAuthority('ADMIN', 'SUPER_ADMIN')" th:href="/users/new">New User</a>
 </body>
 </html>

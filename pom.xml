@@ -95,7 +95,7 @@
             <artifactId>webjars-locator</artifactId>
             <version>RELEASE</version>
         </dependency>
-        
+
 <!--web services-->
         <dependency>
             <groupId>org.springframework.boot</groupId>

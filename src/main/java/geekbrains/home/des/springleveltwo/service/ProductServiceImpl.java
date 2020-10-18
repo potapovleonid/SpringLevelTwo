@@ -5,7 +5,9 @@ import geekbrains.home.des.springleveltwo.domain.Bucket;
 import geekbrains.home.des.springleveltwo.domain.Product;
 import geekbrains.home.des.springleveltwo.domain.User;
 import geekbrains.home.des.springleveltwo.dto.ProductDTO;
+import geekbrains.home.des.springleveltwo.mapper.BucketMapper;
 import geekbrains.home.des.springleveltwo.mapper.ProductMapper;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,13 +23,16 @@ public class ProductServiceImpl implements ProductService {
     private final ProductDAO productDAO;
     private final UserService userService;
     private final BucketService bucketService;
+    private final SimpMessagingTemplate template;
 
-    public ProductServiceImpl(ProductDAO productDAO, UserService userService, BucketService bucketService) {
+    public ProductServiceImpl(ProductDAO productDAO, UserService userService, BucketService bucketService, SimpMessagingTemplate template) {
         this.productDAO = productDAO;
         this.userService = userService;
         this.bucketService = bucketService;
+        this.template = template;
 //        initializeDB();
     }
+
 
 //    private void initializeDB() {
 //        productDAO.saveAll(Arrays.asList(
@@ -70,6 +75,14 @@ public class ProductServiceImpl implements ProductService {
         } else {
             bucketService.addProduct(bucket, Collections.singletonList(productId));
         }
+    }
 
+    @Override
+    public void addProduct(ProductDTO productDTO) {
+        Product product = ProductMapper.MAPPER.toProduct(productDTO);
+        Product addProduct = productDAO.save(product);
+
+        template.convertAndSend("/topic/products",
+                ProductMapper.MAPPER.fromProduct(addProduct));
     }
 }
