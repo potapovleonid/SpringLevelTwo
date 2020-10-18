@@ -17,29 +17,27 @@ function connect() {
     });
 }
 
-// // хук на интерфейс
-// $(function () {
-//     $("form").on('submit', function (e) {
-//         e.preventDefault();
-//     });
-//     $( "#send" ).click(function() { sendContent(); });
-// });
-//
-// // отправка сообщения на сервер
-// function sendContent() {
-//     stomp.send("/app/products", {}, JSON.stringify({
-//         'title': $("#title").val(),
-//         'price': $("#price").val()
-//     }));
-// }
+// хук на интерфейс
+$(function () {
+    $("addproductform").on('submit', function (e) {
+        e.preventDefault();
+    });
+    $("#buttonaddproduct").click(function() { sendContent(); });
+});
+
+// отправка сообщения на сервер
+function sendContent() {
+    stomp.send("/app/products", {}, JSON.stringify({
+        'title': $("#title").val(),
+        'price': $("#price").val()
+    }));
+}
 
 // рендер сообщения, полученного от сервера
 function renderItem(productJson) {
     var product = JSON.parse(productJson.body);
-    $("#table").append("<tr>" +
+    $("#productstable").append("<tr>" +
         "<td>" +product.title +"</td>" +
         "<td>" +product.price +"</td>" +
-        "<td><a href='/products/" + product.id +"/bucket'>Add to bucket</a></td>" +
-        "<td><a href='/products/" + product.id +"/delete'>Delete</a></td>" +
         "</tr>");
 }

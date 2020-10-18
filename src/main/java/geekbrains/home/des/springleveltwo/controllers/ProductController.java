@@ -45,18 +45,21 @@ public class ProductController {
 
     @PreAuthorize("hasAnyAuthority('ADMIN', 'SUPER_ADMIN')")
     @GetMapping("/{id}/delete")
-    public void deleteProduct(@PathVariable Long id){
+    public String deleteProduct(@PathVariable Long id){
         productService.deleteById(id);
+        return "redirect:/products";
     }
 
+    @PreAuthorize("hasAnyAuthority('MANAGER', 'ADMIN', 'SUPER_ADMIN')")
     @PostMapping
     public ResponseEntity<Void> addProduct(ProductDTO productDTO){
         productService.addProduct(productDTO);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-//    @MessageMapping("/products")
-//    public void messageAddProduct(ProductDTO productDTO){
-//        productService.addProduct(productDTO);
-//    }
+    @PreAuthorize("hasAnyAuthority('MANAGER', 'ADMIN', 'SUPER_ADMIN')")
+    @MessageMapping("/products")
+    public void messageAddProduct(ProductDTO productDTO){
+        productService.addProduct(productDTO);
+    }
 }

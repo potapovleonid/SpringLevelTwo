@@ -58,9 +58,12 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public void save(User user) {
+        User findUser = userDAO.findFirstByName(user.getName());
         //Кодируем в bcrypt пароль
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        userDAO.save(user);
+        if (findUser == null) {
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+            userDAO.save(user);
+        }
     }
 
     @Override

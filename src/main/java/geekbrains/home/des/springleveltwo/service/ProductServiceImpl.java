@@ -80,9 +80,12 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public void addProduct(ProductDTO productDTO) {
         Product product = ProductMapper.MAPPER.toProduct(productDTO);
-        Product addProduct = productDAO.save(product);
+        Product findProduct = productDAO.findByTitle(product.getTitle());
+        if (findProduct == null) {
+            Product addProduct = productDAO.save(product);
 
-        template.convertAndSend("/topic/products",
-                ProductMapper.MAPPER.fromProduct(addProduct));
+            template.convertAndSend("/topic/products",
+                    ProductMapper.MAPPER.fromProduct(addProduct));
+        }
     }
 }
