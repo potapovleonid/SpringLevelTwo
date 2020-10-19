@@ -34,15 +34,15 @@ public class ProductServiceImpl implements ProductService {
     }
 
 
-//    private void initializeDB() {
-//        productDAO.saveAll(Arrays.asList(
-//                new Product(null, "Apple", 25.15),
-//                new Product(null, "Peach", 35.70),
-//                new Product(null, "Carrot", 5.25),
-//                new Product(null, "Butter", 80.0),
-//                new Product(null, "Jam", 100.20)
-//        ));
-//    }
+    private void initializeDB() {
+        productDAO.saveAll(Arrays.asList(
+                new Product(null, "Apple", 25.15),
+                new Product(null, "Peach", 35.70),
+                new Product(null, "Carrot", 5.25),
+                new Product(null, "Butter", 80.0),
+                new Product(null, "Jam", 100.20)
+        ));
+    }
 
     @Override
     public List<ProductDTO> getAll() {

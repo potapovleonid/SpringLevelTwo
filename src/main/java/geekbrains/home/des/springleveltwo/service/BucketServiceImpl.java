@@ -7,6 +7,7 @@ import geekbrains.home.des.springleveltwo.domain.Product;
 import geekbrains.home.des.springleveltwo.domain.User;
 import geekbrains.home.des.springleveltwo.dto.BucketDTO;
 import geekbrains.home.des.springleveltwo.dto.BucketDetailDTO;
+import geekbrains.home.des.springleveltwo.mapper.BucketMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -52,6 +53,21 @@ public class BucketServiceImpl implements BucketService {
         }
         products.addAll(getCollectRefProducts(productsId));
         bucket.setProducts(products);
+        bucketDAO.save(bucket);
+    }
+
+    @Override
+    public void deleteProduct(BucketDTO bucketDTO, Long id) {
+        List<BucketDetailDTO> details = bucketDTO.getBucketDetails();
+        BucketDetailDTO bucketDetailDTO = null;
+
+        for (BucketDetailDTO dto: details) {
+            if (dto.getProductId().equals(id)){
+                bucketDetailDTO = dto;
+            }
+        }
+        bucketDTO.getBucketDetails().remove(bucketDetailDTO);
+        Bucket bucket = BucketMapper.MAPPER.toBucket(bucketDTO);
         bucketDAO.save(bucket);
     }
 

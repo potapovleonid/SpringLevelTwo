@@ -5,6 +5,7 @@ import geekbrains.home.des.springleveltwo.service.ProductService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -59,7 +60,9 @@ public class ProductController {
 
     @PreAuthorize("hasAnyAuthority('MANAGER', 'ADMIN', 'SUPER_ADMIN')")
     @MessageMapping("/products")
-    public void messageAddProduct(ProductDTO productDTO){
+    @SendTo("/topic/products")
+    public ProductDTO messageAddProduct(ProductDTO productDTO){
         productService.addProduct(productDTO);
+        return productDTO;
     }
 }
