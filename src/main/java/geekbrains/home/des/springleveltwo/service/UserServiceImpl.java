@@ -28,13 +28,13 @@ public class UserServiceImpl implements UserService{
 //        initializeDB();
     }
 
-//    private void initializeDB() {
-//        userDAO.saveAll(Arrays.asList(
-//           new User(null, "Admin", passwordEncoder.encode("admin"), "admin@mail.ru", false, UserRole.ADMIN, null)
-//           new User(null, "Leonid", passwordEncoder.encode("leonid"), "leonid@gmail.com", false, UserRole.SUPER_ADMIN, null),
-//           new User(null, "Test", passwordEncoder.encode("test"), "test@gmail.com", false, UserRole.USER, null)
-//        ));
-//    }
+    private void initializeDB() {
+        userDAO.saveAll(Arrays.asList(
+           new User(null, "Admin", passwordEncoder.encode("admin"), "admin@mail.ru", false, UserRole.ADMIN, null),
+           new User(null, "Leonid", passwordEncoder.encode("leonid"), "leonid@gmail.com", false, UserRole.SUPER_ADMIN, null),
+           new User(null, "Test", passwordEncoder.encode("test"), "test@gmail.com", false, UserRole.USER, null)
+        ));
+    }
 
     @Override
     public List<User> getAll() {
