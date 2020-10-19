@@ -25,7 +25,7 @@
             <td th:text="${user.role}">Role</td>
             <td sec:authorize="hasAnyAuthority('SUPER_ADMIN')">
                 <a th:href="@{/users/{id}(id=${user.id})}">Edit</a><br>
-                <a th:href="@{/users/{id}/delete(id=$(user.id))}">Delete</a>
+                <a th:href="@{/users/{id}/delete(id=${user.id})}">Delete</a>
             </td>
         </tr>
     </table>

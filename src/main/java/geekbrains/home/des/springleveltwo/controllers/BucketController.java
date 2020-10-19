@@ -1,11 +1,7 @@
 package geekbrains.home.des.springleveltwo.controllers;
 
-import geekbrains.home.des.springleveltwo.domain.Bucket;
 import geekbrains.home.des.springleveltwo.dto.BucketDTO;
-import geekbrains.home.des.springleveltwo.dto.ProductDTO;
-import geekbrains.home.des.springleveltwo.mapper.BucketMapper;
 import geekbrains.home.des.springleveltwo.service.BucketService;
-import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -39,12 +35,13 @@ public class BucketController {
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/{id}/delete")
-    public String deleteProduct(@PathVariable Long productID, Principal principal) {
+    public String deleteProduct(@PathVariable Long id, Principal principal) {
         if (principal == null) {
             return "redirect:/bucket";
         } else {
+            System.out.println("send delete request product id: " + id);
             BucketDTO bucket = bucketService.getBucketByUser(principal.getName());
-            bucketService.deleteProduct(bucket, productID);
+            bucketService.deleteProduct(bucket, id, principal.getName());
         }
         return "redirect:/bucket";
     }

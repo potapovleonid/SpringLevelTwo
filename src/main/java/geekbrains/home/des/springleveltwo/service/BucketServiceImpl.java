@@ -7,7 +7,6 @@ import geekbrains.home.des.springleveltwo.domain.Product;
 import geekbrains.home.des.springleveltwo.domain.User;
 import geekbrains.home.des.springleveltwo.dto.BucketDTO;
 import geekbrains.home.des.springleveltwo.dto.BucketDetailDTO;
-import geekbrains.home.des.springleveltwo.mapper.BucketMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -57,17 +56,20 @@ public class BucketServiceImpl implements BucketService {
     }
 
     @Override
-    public void deleteProduct(BucketDTO bucketDTO, Long id) {
+    public void deleteProduct(BucketDTO bucketDTO, Long id, String username) {
         List<BucketDetailDTO> details = bucketDTO.getBucketDetails();
         BucketDetailDTO bucketDetailDTO = null;
 
         for (BucketDetailDTO dto: details) {
             if (dto.getProductId().equals(id)){
                 bucketDetailDTO = dto;
+                System.out.println("find bucket detail: \n" + bucketDetailDTO.toString());
             }
         }
-        bucketDTO.getBucketDetails().remove(bucketDetailDTO);
-        Bucket bucket = BucketMapper.MAPPER.toBucket(bucketDTO);
+        System.out.println(bucketDTO.getBucketDetails().remove(bucketDetailDTO));
+        Bucket bucket = userService.findByName(username).getBucket();
+        // подумать как перевести list bucketDetailsDTO в обычный лист
+        System.out.println(bucket.getProducts());
         bucketDAO.save(bucket);
     }
 
