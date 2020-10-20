@@ -1,12 +1,15 @@
-package aspect;
+package des.home.aspect;
 
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.*;
+import org.springframework.stereotype.Component;
 
+@Aspect
+@Component
 public class LogAspect {
 
-    @Pointcut("")
+    @Pointcut("execution(* des.home.service..*.*(..))")
     private void anyMethod(){
     }
 

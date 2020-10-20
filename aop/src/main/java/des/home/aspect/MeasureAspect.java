@@ -1,4 +1,4 @@
-package aspect;
+package des.home.aspect;
 
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 @Aspect
 @Component
 public class MeasureAspect {
+
     @Pointcut("@annotation(MeasureMethod)")
     private void annotatedMethod(){
 

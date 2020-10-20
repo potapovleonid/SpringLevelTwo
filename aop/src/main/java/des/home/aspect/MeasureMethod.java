@@ -1,6 +1,4 @@
-package aspect;
-
-import org.aspectj.lang.annotation.Pointcut;
+package des.home.aspect;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
