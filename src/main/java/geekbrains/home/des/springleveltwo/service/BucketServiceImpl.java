@@ -56,20 +56,15 @@ public class BucketServiceImpl implements BucketService {
     }
 
     @Override
-    public void deleteProduct(BucketDTO bucketDTO, Long id, String username) {
-        List<BucketDetailDTO> details = bucketDTO.getBucketDetails();
-        BucketDetailDTO bucketDetailDTO = null;
-
-        for (BucketDetailDTO dto: details) {
-            if (dto.getProductId().equals(id)){
-                bucketDetailDTO = dto;
-                System.out.println("find bucket detail: \n" + bucketDetailDTO.toString());
-            }
-        }
-        System.out.println(bucketDTO.getBucketDetails().remove(bucketDetailDTO));
+    public void deleteProduct(Long id, String username) {
+        System.out.println("start finder user: " + username + "\nid: " + id);
         Bucket bucket = userService.findByName(username).getBucket();
-        // подумать как перевести list bucketDetailsDTO в обычный лист
-        System.out.println(bucket.getProducts());
+        System.out.println("Finded Bucket: " + bucket.toString());
+        List<Product> products = bucket.getProducts();
+        System.out.println(products.toString());
+        products.removeIf(p -> p.getId().equals(id));
+        System.out.println(products.toString());
+        bucket.setProducts(products);
         bucketDAO.save(bucket);
     }
 

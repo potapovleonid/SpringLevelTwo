@@ -40,8 +40,7 @@ public class BucketController {
             return "redirect:/bucket";
         } else {
             System.out.println("send delete request product id: " + id);
-            BucketDTO bucket = bucketService.getBucketByUser(principal.getName());
-            bucketService.deleteProduct(bucket, id, principal.getName());
+            bucketService.deleteProduct(id, principal.getName());
         }
         return "redirect:/bucket";
     }
