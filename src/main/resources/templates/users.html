@@ -30,6 +30,6 @@
         </tr>
     </table>
 
-    <a sec:authorize="hasAnyAuthority('ADMIN', 'SUPER_ADMIN')" th:href="/users/new">New User</a>
+    <a sec:authorize="hasAnyAuthority('ADMIN', 'SUPER_ADMIN')" th:href="@{/users/new}">New User</a>
 </body>
 </html>
