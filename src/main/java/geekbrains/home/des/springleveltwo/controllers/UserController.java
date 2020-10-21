@@ -84,7 +84,7 @@ public class UserController {
         return "user";
     }
 
-    @PreAuthorize("isAuthenticated() and hasAuthority('SUPER_ADMIN')")
+    @PreAuthorize("hasAuthority('SUPER_ADMIN')")
     @PostMapping("/{id}")
     public String updateUser(User userForm, @PathVariable Long id) {
         if (userService.update(userForm)) {
@@ -94,5 +94,10 @@ public class UserController {
         }
     }
 
+    @PreAuthorize("hasAuthority('SUPER_ADMIN')")
+    @GetMapping("/{id}/delete")
+    public void deleteUser(@PathVariable Long id){
+        userService.deleteById(id);
+    }
 
 }

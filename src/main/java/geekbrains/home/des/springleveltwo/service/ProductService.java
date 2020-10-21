@@ -10,4 +10,5 @@ public interface ProductService {
     ProductDTO getById(Long id);
     void deleteById(Long id);
     void addToUserBucket(Long productId, String username);
+    void addProduct(ProductDTO productDTO);
 }

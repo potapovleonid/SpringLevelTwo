@@ -56,6 +56,19 @@ public class BucketServiceImpl implements BucketService {
     }
 
     @Override
+    public void deleteProduct(Long id, String username) {
+        System.out.println("start finder user: " + username + "\nid: " + id);
+        Bucket bucket = userService.findByName(username).getBucket();
+        System.out.println("Finded Bucket: " + bucket.toString());
+        List<Product> products = bucket.getProducts();
+        System.out.println(products.toString());
+        products.removeIf(p -> p.getId().equals(id));
+        System.out.println(products.toString());
+        bucket.setProducts(products);
+        bucketDAO.save(bucket);
+    }
+
+    @Override
     public BucketDTO getBucketByUser(String name) {
         User user = userService.findByName(name);
 

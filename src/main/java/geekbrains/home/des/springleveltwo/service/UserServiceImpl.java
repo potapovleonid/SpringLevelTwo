@@ -28,12 +28,13 @@ public class UserServiceImpl implements UserService{
 //        initializeDB();
     }
 
-//    private void initializeDB() {
-//        userDAO.saveAll(Arrays.asList(
-//           new User(null, "Leonid", passwordEncoder.encode("leonid"), "leonid@gmail.com", false, UserRole.SUPER_ADMIN, null),
-//           new User(null, "Test", passwordEncoder.encode("test"), "test@gmail.com", false, UserRole.USER, null)
-//        ));
-//    }
+    private void initializeDB() {
+        userDAO.saveAll(Arrays.asList(
+           new User(null, "Admin", passwordEncoder.encode("admin"), "admin@mail.ru", false, UserRole.ADMIN, null),
+           new User(null, "Leonid", passwordEncoder.encode("leonid"), "leonid@gmail.com", false, UserRole.SUPER_ADMIN, null),
+           new User(null, "Test", passwordEncoder.encode("test"), "test@gmail.com", false, UserRole.USER, null)
+        ));
+    }
 
     @Override
     public List<User> getAll() {
@@ -57,9 +58,12 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public void save(User user) {
+        User findUser = userDAO.findFirstByName(user.getName());
         //Кодируем в bcrypt пароль
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        userDAO.save(user);
+        if (findUser == null) {
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+            userDAO.save(user);
+        }
     }
 
     @Override
@@ -116,5 +120,10 @@ public class UserServiceImpl implements UserService{
                 findUser.getName(),
                 findUser.getPassword(),
                 roles);
+    }
+
+    @Override
+    public void deleteById(Long id) {
+        userDAO.deleteById(id);
     }
 }
