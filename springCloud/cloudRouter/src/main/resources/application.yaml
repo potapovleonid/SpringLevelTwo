@@ -1,0 +1,5 @@
+zuul:
+  routes:
+    shop:
+      path: /shop/**
+      url: http://localhost:8880

@@ -1,5 +1,6 @@
 package geekbrains.home.des.springleveltwo.mapper;
 
+
 import geekbrains.home.des.springleveltwo.domain.Product;
 import geekbrains.home.des.springleveltwo.dto.ProductDTO;
 import org.mapstruct.InheritInverseConfiguration;
