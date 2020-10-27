@@ -36,4 +36,11 @@ public class OrderDetail {
 
     @Column(name = "price_fld")
     private BigDecimal price;
+
+    public OrderDetail(Order order, Product product, Long amount) {
+        this.order = order;
+        this.product = product;
+        this.amount = new BigDecimal(amount);
+        this.price = new BigDecimal(product.getPrice());
+    }
 }

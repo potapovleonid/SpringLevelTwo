@@ -2,13 +2,13 @@ package geekbrains.home.des.springleveltwo.service;
 
 import geekbrains.home.des.springleveltwo.dao.BucketDAO;
 import geekbrains.home.des.springleveltwo.dao.ProductDAO;
-import geekbrains.home.des.springleveltwo.domain.Bucket;
-import geekbrains.home.des.springleveltwo.domain.Product;
-import geekbrains.home.des.springleveltwo.domain.User;
+import geekbrains.home.des.springleveltwo.domain.*;
 import geekbrains.home.des.springleveltwo.dto.BucketDTO;
 import geekbrains.home.des.springleveltwo.dto.BucketDetailDTO;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -21,17 +21,18 @@ public class BucketServiceImpl implements BucketService {
     private final BucketDAO bucketDAO;
     private final ProductDAO productDAO;
     private final UserService userService;
+    private final OrderService orderService;
 
-    public BucketServiceImpl(BucketDAO bucketDAO, ProductDAO productDAO, UserService userService) {
+    public BucketServiceImpl(BucketDAO bucketDAO, ProductDAO productDAO, UserService userService, OrderService orderService) {
         this.bucketDAO = bucketDAO;
         this.productDAO = productDAO;
         this.userService = userService;
+        this.orderService = orderService;
     }
 
     @Override
     public Bucket createBucket(User user, List<Long> productsId) {
         Bucket bucket = new Bucket();
-//        test
         user.setBucket(bucket);
         List<Product> products = getCollectRefProducts(productsId);
         bucket.setProducts(products);
@@ -56,6 +57,7 @@ public class BucketServiceImpl implements BucketService {
     }
 
     @Override
+    @Transactional
     public void deleteProduct(Long id, String username) {
         System.out.println("start finder user: " + username + "\nid: " + id);
         Bucket bucket = userService.findByName(username).getBucket();
@@ -94,5 +96,41 @@ public class BucketServiceImpl implements BucketService {
         bucketDTO.aggregate();
 
         return bucketDTO;
+    }
+
+    @Override
+    @Transactional
+    public void commitBucketToOrder(String name) {
+        User user = userService.findByName(name);
+        if(user == null){
+            throw new RuntimeException("User is not found");
+        }
+        Bucket bucket = user.getBucket();
+        if(bucket == null || bucket.getProducts().isEmpty()){
+            return;
+        }
+
+        Order order = new Order();
+        order.setStatus(OrderStatus.NEW);
+        order.setUser(user);
+
+        Map<Product, Long> productWithAmount = bucket.getProducts().stream()
+                .collect(Collectors.groupingBy(product -> product, Collectors.counting()));
+
+        List<OrderDetail> orderDetails = productWithAmount.entrySet().stream()
+                .map(pair -> new OrderDetail(order, pair.getKey(), pair.getValue()))
+                .collect(Collectors.toList());
+
+        BigDecimal total = new BigDecimal(orderDetails.stream()
+                .map(detail -> detail.getPrice().multiply(detail.getAmount()))
+                .mapToDouble(BigDecimal::doubleValue).sum());
+
+        order.setDetails(orderDetails);
+        order.setSum(total);
+        order.setAddress("none");
+
+        orderService.saveOrder(order);
+        bucket.getProducts().clear();
+        bucketDAO.save(bucket);
     }
 }
