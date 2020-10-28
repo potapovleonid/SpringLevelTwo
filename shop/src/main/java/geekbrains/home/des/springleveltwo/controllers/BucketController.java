@@ -46,8 +46,7 @@ public class BucketController {
         return "redirect:/bucket";
     }
 
-    @PreAuthorize("isAuthenticated()")
-    @PostMapping("/bucket")
+    @PostMapping
     public String commitBucket(Model model, Principal principal){
         if(principal != null){
             bucketService.commitBucketToOrder(principal.getName());
