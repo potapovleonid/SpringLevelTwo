@@ -97,6 +97,12 @@
             <version>RELEASE</version>
         </dependency>
 
+        <!--        INTEGRATION        -->
+        <dependency>
+            <groupId>org.springframework.integration</groupId>
+            <artifactId>spring-integration-http</artifactId>
+        </dependency>
+
         <!--web services-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
