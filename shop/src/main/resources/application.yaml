@@ -5,8 +5,8 @@ spring:
     hibernate:
       ddl-auto: validate
   datasource:
-    url: jdbc:mysql://localhost:3306/online_shop?serverTimezone=UTC
-    username: root
-    password: 355286888aaAA!!@@##$$%%
+    url: ${DATABASE_PATH_SHOP_MYSQL}
+    username: ${DATABASE_USER_SHOP_MYSQL}
+    password: ${DATABASE_PASSWORD_SHOP_MYSQL}
   flyway:
     baseline-on-migrate: true

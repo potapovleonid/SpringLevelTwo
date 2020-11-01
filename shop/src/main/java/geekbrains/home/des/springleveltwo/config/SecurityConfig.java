@@ -3,6 +3,7 @@ package geekbrains.home.des.springleveltwo.config;
 import geekbrains.home.des.springleveltwo.domain.UserRole;
 import geekbrains.home.des.springleveltwo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -21,12 +22,10 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
                             jsr250Enabled = true,
                             prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-    private UserService userService;
-
     @Autowired
-    public void setUserService(UserService userService) {
-        this.userService = userService;
-    }
+    private ApplicationContext applicationContext;
+
+    private UserService userService;
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -40,10 +39,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     public DaoAuthenticationProvider authenticationProvider(){
+        initializeUserService();
         DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
         authenticationProvider.setUserDetailsService(userService);
         authenticationProvider.setPasswordEncoder(passwordEncoder());
         return authenticationProvider;
+    }
+
+    private void initializeUserService() {
+        this.userService = applicationContext.getBean(UserService.class);
     }
 
     @Override
