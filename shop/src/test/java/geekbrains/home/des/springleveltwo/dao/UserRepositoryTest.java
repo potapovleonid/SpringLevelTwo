@@ -41,15 +41,15 @@ public class UserRepositoryTest {
 //        Assertions.assertEquals(user.getEmail(), superManUser.getEmail());
 //    }
 
-    @Test
-    void checkFindByNameAfterSql(){
-        //execute
-        User adminUser = userDAO.findFirstByName("admin");
-
-        //check
-        Assertions.assertNotNull(adminUser);
-        Assertions.assertEquals("Admin", adminUser.getName());
-        Assertions.assertEquals("admin", adminUser.getPassword());
-        Assertions.assertEquals("admin@mail.ru", adminUser.getEmail());
-    }
+//    @Test
+//    void checkFindByNameAfterSql(){
+//        //execute
+//        User adminUser = userDAO.findFirstByName("admin");
+//
+//        //check
+//        Assertions.assertNotNull(adminUser);
+//        Assertions.assertEquals("Admin", adminUser.getName());
+//        Assertions.assertEquals("admin", adminUser.getPassword());
+//        Assertions.assertEquals("admin@mail.ru", adminUser.getEmail());
+//    }
 }
